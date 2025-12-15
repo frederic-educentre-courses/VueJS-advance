@@ -16,8 +16,83 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section>
+					<h2>Vue.JS avancé</h2>
+				</section>
+				<section>
+					<h2>Récupérer de la données d'une API</h2>
+					<pre><code>import { ref, onMounted } from 'vue'
+
+export default {
+  setup() {
+    const products = ref([]) // tableau réactif pour stocker les produits
+
+    onMounted(async () => { // hook de cycle de vie appelé après le montage du composant
+      const response = await fetch('https://api.example.com/products')
+      products.value = await response.json()
+    })
+
+    return { products } // expose la variable products au template
+  }
+}
+					</code></pre>
+				</section>
+				<section>
+					<h2>v-for avec fetch</h2>
+					<pre><code>&lt;template&gt;
+  &lt;div&gt;
+	&lt;ul&gt;
+	  &lt;li v-for="product in products" :key="product.id"&gt;
+		{{ product.name }}
+	  &lt;/li&gt;
+	&lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+					</code></pre>
+				</section>
+				<section>
+					<h2>v-if & v-else</h2>
+					<pre><code>&lt;template&gt;
+  &lt;div&gt;
+	&lt;div v-if="products.length > 0"&gt;
+	  &lt;ul&gt;
+		&lt;li v-for="product in products" :key="product.id"&gt;
+		  {{ product.name }}
+		&lt;/li&gt;
+	  &lt;/ul&gt;
+	&lt;/div&gt;
+	&lt;div v-else&gt;
+	  Chargement des produits...
+	&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+					</code></pre>
+				</section>
+				<section>
+					<h2>v-on & @</h2>
+					<p>Les directives v-on et @ sont utilisées pour écouter les événements.</p>
+					<pre><code><!--
+&lt;template&gt;
+  &lt;div&gt;
+		&lt;button v-on:click="handleClick"&gt;Cliquez-moi&lt;/button&gt;
+		ou
+    &lt;button @click="handleClick"&gt;Cliquez-moi&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+<script setup>
+import { ref } from 'vue'
+
+const count = ref(0)
+
+function handleClick() {
+  count.value++
+}
+</script>
+-->
+					</code></pre>
+				</section>
 			</div>
 		</div>
 
